@@ -1,4 +1,5 @@
 import React from 'react';
+import ProductTable from './ProductTable ';
 
 class SearchBar extends React.Component {
   state = {
@@ -7,11 +8,25 @@ class SearchBar extends React.Component {
   };
 
   handleChange = (event) => {
-    this.props.onFilter(event.target.value);
+    this.setState(
+      {
+        search: event.target.value,
+      },
+      () => {
+        this.props.onFilter(this.state);
+      }
+    );
+  };
 
-    this.setState({
-      search: event.target.value
-    });
+  handleCheck = () => {
+    this.setState(
+      {
+        stock: !this.state.stock,
+      },
+      () => {
+        this.props.onFilter(this.state);
+      }
+    );
   };
 
   render() {
@@ -26,12 +41,7 @@ class SearchBar extends React.Component {
         />
 
         <label> Only show products on stock</label>
-        <input
-          type="checkbox"
-          name="stock"
-          onChange={this.handleChange}
-          checked={this.state.stock}
-        />
+        <input type="checkbox" name="stock" onChange={this.handleCheck} />
       </form>
     );
   }

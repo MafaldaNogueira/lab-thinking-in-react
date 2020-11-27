@@ -9,9 +9,14 @@ class FilterableProduct extends React.Component {
     filteredProducts: this.props.products.data,
   };
 
-  handleFilterProducts = (query) => {
+  handleFilterProducts = (state) => {
+    let { search, stock } = state;
+  
     let visibleProducts = [...this.state.products].filter((product) => {
-      return product.name.toLowerCase().includes(query.toLowerCase());
+      return (
+        product.name.toLowerCase().includes(search.toLowerCase()) &&
+        (stock ? product.stocked === stock : product)
+      );
     });
 
     this.setState({
